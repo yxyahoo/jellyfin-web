@@ -6,6 +6,7 @@ import ServerConnections from 'lib/jellyfin-apiclient/ServerConnections';
 import Dashboard from 'utils/dashboard';
 import { queryClient } from 'utils/query/queryClient';
 
+import { shouldEnableOverflow } from './overflowPreference.ts';
 import { loadRecordings } from './sections/activeRecordings';
 import { loadLibraryButtons } from './sections/libraryButtons';
 import { loadLibraryTiles } from './sections/libraryTiles';
@@ -167,7 +168,7 @@ function loadSection(page, apiClient, user, userSettings, userViews, section, in
             loadResume(elem, apiClient, 'HeaderContinueReading', 'Book', userSettings, options);
             break;
         case HomeSectionType.SmallLibraryTiles:
-            loadLibraryTiles(elem, userViews, options);
+            loadLibraryTiles(elem, userViews, { enableOverflow: shouldEnableOverflow(userSettings) });
             break;
         default:
             elem.innerHTML = '';

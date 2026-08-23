@@ -26,7 +26,7 @@ function getItemsToResumeFn(
 ) {
     return function () {
         const api = ServerConnections.getApi(apiClient.serverId());
-        const limit = enableOverflow ? 12 : 5;
+        const limit = enableOverflow ? 100 : 5;
 
         const options = {
             userId: apiClient.getCurrentUserId(),

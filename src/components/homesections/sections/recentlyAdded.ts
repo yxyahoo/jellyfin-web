@@ -28,7 +28,7 @@ function getFetchLatestItemsFn(
     return function () {
         const api = ServerConnections.getApi(apiClient.serverId());
 
-        let limit = 16;
+        let limit = 50;
 
         if (enableOverflow) {
             if (collectionType === CollectionType.Music) {

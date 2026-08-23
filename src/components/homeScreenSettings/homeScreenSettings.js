@@ -383,6 +383,7 @@ function renderPerLibrarySettings(context, user, userViews, userSettings) {
 
 function loadForm(context, user, userSettings, apiClient) {
     context.querySelector('.chkHidePlayedFromLatest').checked = user.Configuration.HidePlayedInLatest || false;
+    context.querySelector('.chkHomeSectionOverflow').checked = userSettings.get('homeSectionEnableOverflow', false) !== 'false';
 
     updateHomeSectionValues(context, userSettings);
 
@@ -450,6 +451,7 @@ function getCheckboxItems(selector, context, isChecked) {
 
 async function saveUser(context, user, userSettingsInstance, apiClient) {
     user.Configuration.HidePlayedInLatest = context.querySelector('.chkHidePlayedFromLatest').checked;
+    userSettingsInstance.set('homeSectionEnableOverflow', context.querySelector('.chkHomeSectionOverflow').checked ? 'true' : 'false', false);
 
     user.Configuration.LatestItemsExcludes = getCheckboxItems('.chkIncludeInLatest', context, false).map(i => {
         return i.getAttribute('data-folderid');

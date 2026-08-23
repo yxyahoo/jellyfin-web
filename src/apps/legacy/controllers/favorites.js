@@ -4,6 +4,8 @@ import { ItemFields } from '@jellyfin/sdk/lib/generated-client/models/item-field
 import { ItemSortBy } from '@jellyfin/sdk/lib/generated-client/models/item-sort-by';
 import { getStudioApi } from '@jellyfin/sdk/lib/utils/api/studio-api';
 
+import * as userSettings from 'scripts/settings/userSettings';
+
 import cardBuilder from 'components/cardbuilder/cardBuilder';
 import { getBackdropShape, getPortraitShape, getSquareShape } from 'components/cardbuilder/utils/shape';
 import focusManager from 'components/focusManager';
@@ -13,6 +15,7 @@ import dom from 'utils/dom';
 import globalize from 'lib/globalize';
 import { ServerConnections } from 'lib/jellyfin-apiclient';
 
+import { shouldEnableOverflow } from '../../../components/homesections/overflowPreference.ts';
 import 'elements/emby-itemscontainer/emby-itemscontainer';
 import 'elements/emby-scroller/emby-scroller';
 
@@ -315,7 +318,11 @@ function createSections(instance, elem, apiClient) {
         }
 
         html += '</div>';
-        html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-centerfocus="true"><div is="emby-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x" data-monitor="markfavorite"></div></div>';
+        if (shouldEnableOverflow(userSettings)) {
+            html += '<div is="emby-scroller" class="padded-top-focusscale padded-bottom-focusscale" data-centerfocus="true"><div is="emby-itemscontainer" class="itemsContainer scrollSlider focuscontainer-x" data-monitor="markfavorite"></div></div>';
+        } else {
+            html += '<div class="padded-top-focusscale padded-bottom-focusscale" data-centerfocus="true"><div is="emby-itemscontainer" class="itemsContainer padded-left focuscontainer-x vertical-wrap" data-monitor="markfavorite"></div></div>';
+        }
         html += '</div>';
     }
 
