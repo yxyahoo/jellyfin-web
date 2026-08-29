@@ -133,7 +133,7 @@ const sortOptionsMapping: SortOptionsMapping = {
         { label: 'Name', value: [ItemSortBy.SortName] },
         { label: 'OptionRandom', value: [ItemSortBy.Random] },
         { label: 'OptionCommunityRating', value: [ItemSortBy.CommunityRating, ItemSortBy.SortName] },
-        { label: 'OptionFolderModified', value: [ItemSortBy.DateLastContentAdded, ItemSortBy.SortName] },
+        { label: 'OptionFolderModified', value: [ItemSortBy.DateLastContentAdded as ItemSortBy] },
         { label: 'OptionDateAdded', value: [ItemSortBy.DateCreated, ItemSortBy.SortName] },
         { label: 'OptionDatePlayed', value: [ItemSortBy.DatePlayed, ItemSortBy.SortName] },
         { label: 'Folders', value: [ItemSortBy.IsFolder, ItemSortBy.SortName] },

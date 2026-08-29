@@ -25,7 +25,7 @@ import UserViewsMenu from './UserViewsMenu';
 
 const MAX_USER_VIEWS_MD = 3;
 const MAX_USER_VIEWS_LG = 5;
-const MAX_USER_VIEWS_XL = 8;
+const MAX_USER_VIEWS_XL = 24;
 
 const OVERFLOW_MENU_ID = 'user-view-overflow-menu';
 

@@ -93,7 +93,10 @@ const getItemFieldsEnum = (
     const itemFields: ItemFields[] = [];
 
     if (viewType !== LibraryTab.Studios) {
-        itemFields.push(ItemFields.MediaSourceCount);
+        itemFields.push(
+            ItemFields.MediaSourceCount,
+            ItemFields.DateLastMediaAdded
+        );
     }
 
     if (libraryViewSettings.ImageType === ImageType.Primary) {
