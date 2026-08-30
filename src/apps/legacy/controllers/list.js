@@ -1023,6 +1023,13 @@ class ItemsView {
             sortBy.push(option);
         }
 
+        if (!this.params.type) {
+            sortBy.push({
+                name: globalize.translate('OptionRandom'),
+                value: ItemSortBy.Random
+            });
+        }
+
         option = this.getCommunityRatingSortOption();
 
         if (option) {
