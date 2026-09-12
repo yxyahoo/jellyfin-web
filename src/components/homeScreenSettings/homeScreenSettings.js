@@ -415,6 +415,7 @@ function renderPerLibrarySettings(context, user, userViews, userSettings) {
 
 function loadForm(context, user, userSettings, apiClient) {
     context.querySelector('.chkHidePlayedFromLatest').checked = user.Configuration.HidePlayedInLatest || false;
+    context.querySelector('.txtLatestMediaLimit').value = userSettings.get('latestMediaLimit') || '';
 
     updateHomeSectionValues(context, userSettings);
 
@@ -506,6 +507,12 @@ async function saveUser(context, user, userSettingsInstance, apiClient) {
     user.Configuration.OrderedViews = orderedViews;
 
     userSettingsInstance.set('tvhome', context.querySelector('.selectTVHomeScreen').value);
+
+    const latestMediaLimit = Number.parseInt(context.querySelector('.txtLatestMediaLimit').value, 10);
+    userSettingsInstance.set(
+        'latestMediaLimit',
+        Number.isInteger(latestMediaLimit) && latestMediaLimit >= 1 && latestMediaLimit <= 100 ? String(latestMediaLimit) : ''
+    );
 
     userSettingsInstance.set('homesection0', context.querySelector('#selectHomeSection1').value);
     userSettingsInstance.set('homesection1', context.querySelector('#selectHomeSection2').value);

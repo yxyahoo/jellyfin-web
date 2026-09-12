@@ -23,12 +23,12 @@ function getFetchLatestItemsFn(
     user: UserDto | undefined,
     parentId: string | undefined,
     collectionType: string | null | undefined,
-    { enableOverflow }: SectionOptions
+    { enableOverflow, latestMediaLimit }: SectionOptions
 ) {
     return function () {
         const api = ServerConnections.getApi(apiClient.serverId());
 
-        let limit = 16;
+        let limit;
 
         if (enableOverflow) {
             if (collectionType === CollectionType.Music) {
@@ -41,6 +41,8 @@ function getFetchLatestItemsFn(
         } else {
             limit = 8;
         }
+
+        limit = latestMediaLimit ?? limit;
 
         const options = {
             userId: user?.Id,

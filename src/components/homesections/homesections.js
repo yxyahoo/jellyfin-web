@@ -140,7 +140,11 @@ export function resume(elem, options) {
 
 function loadSection(page, apiClient, user, userSettings, userViews, section, index) {
     const elem = page.querySelector('.section' + index);
-    const options = { enableOverflow: enableScrollX() };
+    const latestMediaLimit = Number.parseInt(userSettings.get('latestMediaLimit'), 10);
+    const options = {
+        enableOverflow: enableScrollX(),
+        latestMediaLimit: Number.isInteger(latestMediaLimit) && latestMediaLimit > 0 ? latestMediaLimit : undefined
+    };
 
     switch (section) {
         case HomeSectionType.ActiveRecordings:
