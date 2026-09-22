@@ -1054,6 +1054,10 @@ class ItemsView {
                 name: globalize.translate('Folders'),
                 value: `${ItemSortBy.IsFolder},${option.value}`
             });
+            sortBy.push({
+                name: globalize.translate('OptionFolderModified'),
+                value: ItemSortBy.DateLastContentAdded
+            });
         }
 
         sortBy.push({
