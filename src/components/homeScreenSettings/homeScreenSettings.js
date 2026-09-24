@@ -363,10 +363,10 @@ function getPerLibrarySettingsHtml(item, user, userSettings) {
 
     if (!excludeFromLatest.includes(collectionType || '')) {
         const latestMediaLimit = Number.parseInt(userSettings.get(`latestMediaLimit-${item.Id}`), 10);
-        const latestMediaLimitValue = Number.isInteger(latestMediaLimit) && latestMediaLimit >= 1 && latestMediaLimit <= 100 ? latestMediaLimit : '';
+        const latestMediaLimitValue = Number.isInteger(latestMediaLimit) && latestMediaLimit >= 1 && latestMediaLimit <= 1000 ? latestMediaLimit : '';
 
         html += '<div class="inputContainer">';
-        html += `<input is="emby-input" type="number" class="txtLatestMediaLimit" data-folderid="${item.Id}" min="1" max="100" step="1" value="${latestMediaLimitValue}" label="Latest media item limit" />`;
+        html += `<input is="emby-input" type="number" class="txtLatestMediaLimit" data-folderid="${item.Id}" min="1" max="1000" step="1" value="${latestMediaLimitValue}" label="Latest media item limit" />`;
         html += '<div class="fieldDescription">Leave blank to use the default limit.</div>';
         html += '</div>';
 
@@ -537,7 +537,7 @@ async function saveUser(context, user, userSettingsInstance, apiClient) {
         const latestMediaLimit = Number.parseInt(latestMediaLimits[i].value, 10);
         userSettingsInstance.set(
             `latestMediaLimit-${latestMediaLimits[i].getAttribute('data-folderid')}`,
-            Number.isInteger(latestMediaLimit) && latestMediaLimit >= 1 && latestMediaLimit <= 100 ? String(latestMediaLimit) : ''
+            Number.isInteger(latestMediaLimit) && latestMediaLimit >= 1 && latestMediaLimit <= 1000 ? String(latestMediaLimit) : ''
         );
     }
 
