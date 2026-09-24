@@ -147,7 +147,7 @@ function loadSection(page, apiClient, user, userSettings, userViews, section, in
             loadRecordings(elem, true, apiClient, options);
             break;
         case HomeSectionType.LatestMedia:
-            loadRecentlyAdded(elem, apiClient, user, userViews, options);
+            loadRecentlyAdded(elem, apiClient, user, userViews, options, userSettings);
             break;
         case HomeSectionType.LibraryButtons:
             loadLibraryButtons(elem, userViews);

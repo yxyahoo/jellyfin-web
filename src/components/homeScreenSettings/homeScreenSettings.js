@@ -345,6 +345,7 @@ function updateHomeSectionValues(context, userSettings) {
 
 function getPerLibrarySettingsHtml(item, user, userSettings) {
     const collectionType = (item.Type === 'CollectionFolder' && item.CollectionType == null) ? 'mixed' : item.CollectionType;
+    const excludeFromLatest = ['playlists', 'livetv', 'boxsets', 'channels', 'folders'];
 
     let html = '';
 
@@ -360,8 +361,15 @@ function getPerLibrarySettingsHtml(item, user, userSettings) {
         html += '</div>';
     }
 
-    const excludeFromLatest = ['playlists', 'livetv', 'boxsets', 'channels'];
     if (!excludeFromLatest.includes(collectionType || '')) {
+        const latestMediaLimit = Number.parseInt(userSettings.get(`latestMediaLimit-${item.Id}`), 10);
+        const latestMediaLimitValue = Number.isInteger(latestMediaLimit) && latestMediaLimit >= 1 && latestMediaLimit <= 100 ? latestMediaLimit : '';
+
+        html += '<div class="inputContainer">';
+        html += `<input is="emby-input" type="number" class="txtLatestMediaLimit" data-folderid="${item.Id}" min="1" max="100" step="1" value="${latestMediaLimitValue}" label="Latest media item limit" />`;
+        html += '<div class="fieldDescription">Leave blank to use the default limit.</div>';
+        html += '</div>';
+
         isChecked = !user.Configuration.LatestItemsExcludes.includes(item.Id);
         html += '<label class="fldIncludeInLatest">';
         html += `<input type="checkbox" is="emby-checkbox" class="chkIncludeInLatest" data-folderid="${item.Id}"${isChecked ? ' checked="checked"' : ''}/>`;
@@ -522,6 +530,15 @@ async function saveUser(context, user, userSettingsInstance, apiClient) {
     for (i = 0, length = selectLandings.length; i < length; i++) {
         const selectLanding = selectLandings[i];
         userSettingsInstance.set(`landing-${selectLanding.getAttribute('data-folderid')}`, selectLanding.value);
+    }
+
+    const latestMediaLimits = context.querySelectorAll('.txtLatestMediaLimit');
+    for (i = 0, length = latestMediaLimits.length; i < length; i++) {
+        const latestMediaLimit = Number.parseInt(latestMediaLimits[i].value, 10);
+        userSettingsInstance.set(
+            `latestMediaLimit-${latestMediaLimits[i].getAttribute('data-folderid')}`,
+            Number.isInteger(latestMediaLimit) && latestMediaLimit >= 1 && latestMediaLimit <= 100 ? String(latestMediaLimit) : ''
+        );
     }
 
     await apiClient.updateUserConfiguration(user.Id, user.Configuration);

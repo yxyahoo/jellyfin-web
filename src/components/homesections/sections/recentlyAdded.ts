@@ -23,7 +23,7 @@ function getFetchLatestItemsFn(
     user: UserDto | undefined,
     parentId: string | undefined,
     collectionType: string | null | undefined,
-    { enableOverflow }: SectionOptions
+    { enableOverflow, latestMediaLimit }: SectionOptions
 ) {
     return function () {
         const api = ServerConnections.getApi(apiClient.serverId());
@@ -41,6 +41,8 @@ function getFetchLatestItemsFn(
         } else {
             limit = 8;
         }
+
+        limit = latestMediaLimit ?? limit;
 
         const options = {
             userId: user?.Id,
@@ -150,7 +152,8 @@ export function loadRecentlyAdded(
     apiClient: ApiClient,
     user: UserDto,
     userViews: BaseItemDto[],
-    options: SectionOptions
+    options: SectionOptions,
+    userSettings: { get: (key: string) => string | undefined }
 ) {
     elem.classList.remove('verticalSection');
     const excludeViewTypes = ['playlists', 'livetv', 'boxsets', 'channels', 'folders'];
@@ -170,6 +173,10 @@ export function loadRecentlyAdded(
         frag.classList.add('hide');
         elem.appendChild(frag);
 
-        renderLatestSection(frag, apiClient, user, item, options);
+        const latestMediaLimit = Number.parseInt(userSettings.get(`latestMediaLimit-${item.Id}`) || '', 10);
+        renderLatestSection(frag, apiClient, user, item, {
+            ...options,
+            latestMediaLimit: Number.isInteger(latestMediaLimit) && latestMediaLimit > 0 ? latestMediaLimit : undefined
+        });
     });
 }
